@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
 import Profile from './components/profile';
-import Africa from './components/timeZones';
+import Location from './components/Location';
+import Clients from './components/Clients';
+import TimeZoneList from './components/timeZoneList';
+
 import './App.css';
+
+
+
 var moment = require('moment-timezone');
 
 class App extends Component{
@@ -10,54 +16,123 @@ class App extends Component{
     super(props);
     this.state={
       yourTime: '',
-      otherTime: ''
-
+      otherTime: '',
+      profile:[],
+      country: '',
+      name: '',
+      notes: '',
+      email: '',
+      phoneNumber: '',
+      view: 'addcontact'
     }
 
 
   }
-  componentDidMount(){
-    let time=moment().format('LTS');
-    let d= moment().tz("America/Lima").format('LTS');
-
-    var newYork    = moment.tz("2014-06-01 12:00", "America/New_York");
-    var losAngeles = newYork.clone().tz("America/Dominica");
 
 
 
-    // console.log('la time' , d);
+
+
+  handleChange=(e)=>{
+    console.log(e.target.value);
     this.setState({
-      time: time
+      country: e.target.value
+    })
+    this.showTimes(e.target.value);
+  }
+
+  handleProfileChange=(e)=>{
+    const {name,value}=e.target;
+    this.setState({
+      [name]: value,
+    })
+
+
+    console.log('country is ', this.state.country)
+    console.log(`name is ${name} and value is ${value}`)
+  }
+
+  handleSubmit=(e)=>{
+    e.preventDefault();
+    console.log('submitted');
+    this.state.profile.push({
+      name: this.state.name,
+      notes: this.state.notes,
+      country: this.state.country,
+      email: this.state.email,
+      phoneNumber: this.state.phoneNumber,
+      otherTime: this.state.otherTime
     })
   }
+
+
+  showTimes=(country)=>{
+    let time=moment().format('LTS');
+
+    let d= moment().tz(`${country}`).format('LTS');
+
+
+    var newYork   = moment.tz("2014-06-01 12:00", "America/New_York");
+    var losAngeles = newYork.clone().tz("America/Dominica");
+
+    this.setState({
+      yourTime: time,
+      otherTime: d
+    })
+  }
+
+  changeView=(show)=>{
+
+    console.log(show);
+
+    this.setState({
+      view: show
+    })
+  }
+
+
+
   render(){
   return (
     <div className="App">
-    <div className='appinside'>
-    App
+    <nav>
+    <a onClick={()=>this.changeView('addcontact')}>Add Contact</a>
 
-    </div>
+    <a onClick={()=>this.changeView('contactList')}>Show ContactList</a>
+    </nav>
 
-    <label for="timezone">Timezone</label>
 
-	   <select name="timezone" id="timezone">
-				<optgroup label="Africa">
-        {Africa.map((i, index)=>{
-          return (<option value={Africa[index].split('/')[1]} label={Africa[index].split('/')[1]}></option>)
-        })}
-		      </optgroup>
-  </select>
-    <Profile/>
+
+
+    {this.state.view==='contactList'?
+      <Clients clients={this.state.profile}/>:
+      <Profile
+      name={this.state.name}
+      notes={this.state.notes}
+      email={this.state.email}
+      phoneNumber={this.state.phoneNumber}
+      handleProfileChange={this.handleProfileChange}
+      onSubmit={this.handleSubmit}
+      country={this.state.country}
+      handleChange={this.handleChange}
+      />}
+
+
+
+
+
+
+    <div>Your Country time is {this.state.yourTime}</div>
+    <div>  Country selected {this.state.country}</div>
+    <div>  Country time is {this.state.otherTime}</div>
+
+
 
     </div>
   );
 }
 }
+  // <TimeZoneList country={this.state.country} handleChange={this.handleChange}/>
+
 
 export default App;
-
-// <select name="timezone" id="timezone">
-// 				<optgroup label="Africa">
-// 			<option value="Africa/Abidjan" label="Abidjan">Abidjan</option>
-// <option value="Africa/Accra" label="Accra">Accra</option>
-// </optgroup>

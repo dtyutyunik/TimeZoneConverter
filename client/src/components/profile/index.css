@@ -1,0 +1,49 @@
+.profile {
+  border: 2px solid yellow;
+}
+
+input[type=text] {
+  font-size: 1.2em;
+  width: 40%;
+  box-sizing: border-box;
+  transition: .2s;
+  padding-left: 40px;
+  padding-bottom: 1%;
+}
+
+textarea {
+  height: 300px;
+  width: 40%;
+  box-sizing: border-box;
+  font-size: 1.2em;
+  padding-left: 40px;
+}
+
+input[type=text]:focus {
+  border-color: blue;
+}
+
+textarea:focus {
+  border-color: blue;
+}
+
+.inputWithIcon {
+  position: relative;
+}
+
+.inputWithIcon>ion-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+ion-icon {
+  font-size: 2em;
+}
+
+button {
+  background-color: black;
+  font-size: 2em;
+  color: white;
+  border-radius: 16px;
+}

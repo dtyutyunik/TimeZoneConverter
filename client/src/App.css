@@ -1,7 +1,19 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .appinside{
   border: 1px solid blue;
+}
+nav{
+  display: flex;
+
+  justify-content: space-around;
+  margin-bottom: 5%;
+}
+nav>a{
+  border: 1px solid black;
+  /* display: flex; */
+  /* flex: 1; */
+
 }

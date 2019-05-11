@@ -436,7 +436,6 @@ const Europe = [
       "Indian/Reunion"
     ];
 
-
     const Pacific = [
 
       "Pacific/Apia",
@@ -481,4 +480,6 @@ const Europe = [
       "Pacific/Yap"
     ];
 
-export default Africa;
+
+
+export {Africa,America,Antarctica,Arctic,Asia,Atlantic,Australia,Pacific,Indian,Europe}
