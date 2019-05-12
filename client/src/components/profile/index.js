@@ -1,26 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './index.css';
 import TimeZoneList from '../timeZoneList';
 
 export default function Profile(props){
-// constructor(props){
-//   super(props);
-//   this.state=({
-//     country: props.country
-//   })
-// }
-//
-//   handleChange=(e)=>{
-//     console.log(e.target.value);
-//     console.log('profile country', this.state.country)
-//     this.setState({
-//       country: e.target.value
-//     })
-//     // this.showTimes(e.target.value);
-//   }
-
-
-
 
     return(
       <div className='profile'>
@@ -84,5 +66,3 @@ export default function Profile(props){
       </div>
     )
 }
-
-  // <TimeZoneList country={props.country} handleChange={props.handleChange}/>

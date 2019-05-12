@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import Profile from './components/profile';
 import Location from './components/Location';
 import Clients from './components/Clients';
-import TimeZoneList from './components/timeZoneList';
+import LandingPage from './components/LandingPage';
+import Fire from './firebase.js';
 
 import './App.css';
-
-
 
 var moment = require('moment-timezone');
 
@@ -23,22 +22,31 @@ class App extends Component{
       notes: '',
       email: '',
       phoneNumber: '',
-      view: 'addcontact'
+      view: 'addcontact',
+      user: {}
     }
-
-
   }
 
 
+    authListener=()=>{
+      Fire.fire.auth().onAuthStateChanged((user)=>{
+        if(user){
+          this.setState({user});
+          // console.log(user.uid);
+        }else{
+          this.setState({user:null})
+        }
 
-
+      });
+    }
+    componentDidMount=()=>{
+      this.authListener();
+    }
 
   handleChange=(e)=>{
-    console.log(e.target.value);
     this.setState({
       country: e.target.value
     })
-    this.showTimes(e.target.value);
   }
 
   handleProfileChange=(e)=>{
@@ -46,15 +54,10 @@ class App extends Component{
     this.setState({
       [name]: value,
     })
-
-
-    console.log('country is ', this.state.country)
-    console.log(`name is ${name} and value is ${value}`)
   }
 
   handleSubmit=(e)=>{
     e.preventDefault();
-    console.log('submitted');
     this.state.profile.push({
       name: this.state.name,
       notes: this.state.notes,
@@ -65,25 +68,41 @@ class App extends Component{
     })
   }
 
-
-  showTimes=(country)=>{
-    let time=moment().format('LTS');
-
-    let d= moment().tz(`${country}`).format('LTS');
+  showTimes=(country,index)=>{
+    let otherTime=moment().tz(`${country}`).format('LTS');
+    return otherTime;
 
 
-    var newYork   = moment.tz("2014-06-01 12:00", "America/New_York");
-    var losAngeles = newYork.clone().tz("America/Dominica");
+    // let time=moment().format('LTS');
+    // let otherTime= moment().tz(`${country}`).format('LTS');
 
-    this.setState({
-      yourTime: time,
-      otherTime: d
-    })
+
+    // var newYork   = moment.tz("2014-06-01 12:00", "America/New_York");
+    // var losAngeles = newYork.clone().tz("America/Dominica");
+  }
+
+  logOut=()=>{
+    Fire.fire.auth().signOut();
+    console.log('logged out')
+    console.log(this.state.user)
   }
 
   changeView=(show)=>{
+    console.log('view is ', show)
 
-    console.log(show);
+    if(show==='contactList'){
+      setInterval(()=>{this.state.profile.map((item,index)=>{
+            let result=this.showTimes(item.country, index);
+            item.otherTime=result;
+            this.setState({
+              [item.otherTime]: item.otherTime,
+            })
+          })},1000)
+
+
+    }
+
+
 
     this.setState({
       view: show
@@ -95,36 +114,25 @@ class App extends Component{
   render(){
   return (
     <div className="App">
-    <nav>
-    <a onClick={()=>this.changeView('addcontact')}>Add Contact</a>
 
+    {this.state.user==={}||this.state.user===null?<LandingPage user={this.state.user}/>:<div><nav>
+    <a onClick={()=>this.changeView('addcontact')}>Add Contact</a>
     <a onClick={()=>this.changeView('contactList')}>Show ContactList</a>
+    <a onClick={()=>this.logOut()}>Log Out</a>
     </nav>
 
-
-
-
-    {this.state.view==='contactList'?
-      <Clients clients={this.state.profile}/>:
-      <Profile
-      name={this.state.name}
-      notes={this.state.notes}
-      email={this.state.email}
-      phoneNumber={this.state.phoneNumber}
-      handleProfileChange={this.handleProfileChange}
-      onSubmit={this.handleSubmit}
-      country={this.state.country}
-      handleChange={this.handleChange}
-      />}
-
-
-
-
-
-
-    <div>Your Country time is {this.state.yourTime}</div>
-    <div>  Country selected {this.state.country}</div>
-    <div>  Country time is {this.state.otherTime}</div>
+    <Clients clients={this.state.profile}/>
+    <Profile
+    name={this.state.name}
+    notes={this.state.notes}
+    email={this.state.email}
+    phoneNumber={this.state.phoneNumber}
+    handleProfileChange={this.handleProfileChange}
+    onSubmit={this.handleSubmit}
+    country={this.state.country}
+    handleChange={this.handleChange}
+    />
+    </div>}
 
 
 
@@ -132,7 +140,22 @@ class App extends Component{
   );
 }
 }
-  // <TimeZoneList country={this.state.country} handleChange={this.handleChange}/>
 
 
 export default App;
+// <nav>
+// <a onClick={()=>this.changeView('addcontact')}>Add Contact</a>
+// <a onClick={()=>this.changeView('contactList')}>Show ContactList</a>
+// </nav>
+// {this.state.view==='contactList'?
+// <Clients clients={this.state.profile}/>:
+// <Profile
+// name={this.state.name}
+// notes={this.state.notes}
+// email={this.state.email}
+// phoneNumber={this.state.phoneNumber}
+// handleProfileChange={this.handleProfileChange}
+// onSubmit={this.handleSubmit}
+// country={this.state.country}
+// handleChange={this.handleChange}
+// />}
