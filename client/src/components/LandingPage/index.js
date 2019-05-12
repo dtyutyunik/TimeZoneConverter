@@ -21,7 +21,6 @@ export default class LandingPage extends Component{
 
   handleProfileChange=(e)=>{
     const {name,value}= e.target;
-    console.log(name,'   ',value)
     this.setState({
       [name]:value
     })
@@ -35,8 +34,6 @@ export default class LandingPage extends Component{
 
   onSubmit=(e)=>{
     e.preventDefault();
-    console.log('butotn clicked');
-    console.log(this.state.view, ' is the view')
     switch(this.state.view){
       case 'signup':
               Fire.fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then({
@@ -58,7 +55,6 @@ export default class LandingPage extends Component{
   render(){
     return(
       <div className='landingPage'>
-      {console.log(this.props.user)}
       {this.state.view==='signup'?
       <SignUp
        changeView={this.changeView}

@@ -32,7 +32,7 @@ class App extends Component{
       Fire.fire.auth().onAuthStateChanged((user)=>{
         if(user){
           this.setState({user});
-          // console.log(user.uid);
+          console.log(user);
         }else{
           this.setState({user:null})
         }
@@ -58,14 +58,46 @@ class App extends Component{
 
   handleSubmit=(e)=>{
     e.preventDefault();
-    this.state.profile.push({
-      name: this.state.name,
-      notes: this.state.notes,
-      country: this.state.country,
-      email: this.state.email,
-      phoneNumber: this.state.phoneNumber,
-      otherTime: this.state.otherTime
-    })
+
+    // var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
+    // starCountRef.on('value', function(snapshot) {
+    //   updateStarCount(postElement, snapshot.val());
+    // });
+
+
+    //
+    // this.state.profile.push({
+    //   name: this.state.name,
+    //   notes: this.state.notes,
+    //   country: this.state.country,
+    //   email: this.state.email,
+    //   phoneNumber: this.state.phoneNumber,
+    //   otherTime: this.state.otherTime
+    // })
+
+    let {uid,email}=this.state.user;
+    console.log(uid,email)
+
+
+    if(!!uid){
+
+        //Merchants is the name of the table, with everything after + is further into the table
+        Fire.database.ref('Clients/' + `${uid}`).push({
+        name: this.state.name,
+        notes: this.state.notes,
+        country: this.state.country,
+        email: this.state.email,
+        phoneNumber: this.state.phoneNumber,
+        otherTime: this.state.otherTime
+      });
+    }else{
+      console.log('false')
+    }
+
+
+
+
+
   }
 
   showTimes=(country,index)=>{
@@ -87,10 +119,36 @@ class App extends Component{
     console.log(this.state.user)
   }
 
-  changeView=(show)=>{
+  gotData=(data)=>{
+    //datapull is the database returning the data from firebase
+    let dataPull=data.val();
+    //pulls out values of the object into an array of objects
+    let valueOfKey=Object.values(dataPull);
+
+    this.setState({
+      profile: valueOfKey
+    })
+
+
+  }
+
+  errData=(error)=>{
+    console.log('error data called');
+    console.log(error)
+  }
+
+  changeView=async(show)=>{
     console.log('view is ', show)
 
     if(show==='contactList'){
+
+
+      let {uid}=this.state.user;
+      let db=Fire.database.ref('Clients/'+uid);
+      db.on('value', this.gotData,this.errData);
+
+
+
       setInterval(()=>{this.state.profile.map((item,index)=>{
             let result=this.showTimes(item.country, index);
             item.otherTime=result;
@@ -98,8 +156,6 @@ class App extends Component{
               [item.otherTime]: item.otherTime,
             })
           })},1000)
-
-
     }
 
 
@@ -121,7 +177,7 @@ class App extends Component{
     <a onClick={()=>this.logOut()}>Log Out</a>
     </nav>
 
-    <Clients clients={this.state.profile}/>
+    {this.state.view==='contactList'?<Clients clients={this.state.profile}/>:
     <Profile
     name={this.state.name}
     notes={this.state.notes}
@@ -131,7 +187,7 @@ class App extends Component{
     onSubmit={this.handleSubmit}
     country={this.state.country}
     handleChange={this.handleChange}
-    />
+    />}
     </div>}
 
 
@@ -143,19 +199,3 @@ class App extends Component{
 
 
 export default App;
-// <nav>
-// <a onClick={()=>this.changeView('addcontact')}>Add Contact</a>
-// <a onClick={()=>this.changeView('contactList')}>Show ContactList</a>
-// </nav>
-// {this.state.view==='contactList'?
-// <Clients clients={this.state.profile}/>:
-// <Profile
-// name={this.state.name}
-// notes={this.state.notes}
-// email={this.state.email}
-// phoneNumber={this.state.phoneNumber}
-// handleProfileChange={this.handleProfileChange}
-// onSubmit={this.handleSubmit}
-// country={this.state.country}
-// handleChange={this.handleChange}
-// />}
