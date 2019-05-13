@@ -6,12 +6,13 @@
 }
 
 .timezoneSelect{
-  width: 38.5%;
+  width: 80%;
   height: 40px;
   font-size: 1.2em;
   text-align: center;
-  padding-left: 60px;
+  padding-left: 40px;
   background-color: white;
+  margin-left: 75px;
 
 }
 
@@ -20,6 +21,9 @@
   position: absolute;
   top: 0;
   left: 0;
+  margin-left: 80px;
+  width: 35px;
+  height: 35px;
 
   border: 1px solid black;
 }
@@ -29,6 +33,4 @@ ion-icon{
   height: 38px;
   box-sizing: border-box;
   border-radius: 6px;
-
-  padding-right:
 }

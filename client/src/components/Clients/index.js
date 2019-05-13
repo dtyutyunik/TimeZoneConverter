@@ -6,16 +6,17 @@ export default function Clients(props){
   return(
     <div className='clients'>
 
-    clients
-    {props.clients.map((index)=>{
+    <h1 style={{textAlign:'center'}}>Contact List</h1>
+    {props.clients.map((item, index)=>{
   return (
     <div className='clientList'>
-      <p>Name: {index.name}</p>
-      <p>Country: {index.country}</p>
-      <p>Notes: {index.notes}</p>
-      <p>Email: {index.email}</p>
-      <p>PhoneNumber: {index.phoneNumber}</p>
-      <p>Time: {index.otherTime}</p>
+      <p>Name: {item.name}</p>
+      <p>Country: {item.country}</p>
+      <p>Notes: {item.notes}</p>
+      <p>Email: {item.email}</p>
+      <p>PhoneNumber: {item.phoneNumber}</p>
+      <p>Time: {item.otherTime}</p>
+      <button onClick={()=>props.removeClient(index)}className='removeClient'>Remove Client</button>
     </div>)
   })}
 

@@ -59,22 +59,6 @@ class App extends Component{
   handleSubmit=(e)=>{
     e.preventDefault();
 
-    // var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
-    // starCountRef.on('value', function(snapshot) {
-    //   updateStarCount(postElement, snapshot.val());
-    // });
-
-
-    //
-    // this.state.profile.push({
-    //   name: this.state.name,
-    //   notes: this.state.notes,
-    //   country: this.state.country,
-    //   email: this.state.email,
-    //   phoneNumber: this.state.phoneNumber,
-    //   otherTime: this.state.otherTime
-    // })
-
     let {uid,email}=this.state.user;
     console.log(uid,email)
 
@@ -119,18 +103,7 @@ class App extends Component{
     console.log(this.state.user)
   }
 
-  gotData=(data)=>{
-    //datapull is the database returning the data from firebase
-    let dataPull=data.val();
-    //pulls out values of the object into an array of objects
-    let valueOfKey=Object.values(dataPull);
 
-    this.setState({
-      profile: valueOfKey
-    })
-
-
-  }
 
   errData=(error)=>{
     console.log('error data called');
@@ -146,7 +119,6 @@ class App extends Component{
       let {uid}=this.state.user;
       let db=Fire.database.ref('Clients/'+uid);
       db.on('value', this.gotData,this.errData);
-
 
 
       setInterval(()=>{this.state.profile.map((item,index)=>{
@@ -165,6 +137,60 @@ class App extends Component{
     })
   }
 
+  gotData=(data)=>{
+    //datapull is the database returning the data from firebase
+    let dataPull=data.val();
+    //pulls out values of the object into an array of objects
+    let valueOfKey=Object.values(dataPull);
+
+    this.setState({
+      profile: valueOfKey
+    })
+
+
+  }
+
+  remove=(data,item)=>{
+    console.log('index is', item)
+    let dataPull=data.val();
+    let valueOfKey=Object.values(dataPull);
+    console.log(valueOfKey)
+    // valueOfKey.filter((item,index)=>{
+    //
+    // }))
+
+    console.log('removed')
+  }
+
+  removeClient=(index)=>{
+    console.log(index);
+    console.log('client clicked to be removed')
+    let {uid}=this.state.user;
+    let db=Fire.database.ref('Clients/'+uid);
+    db.on('value', function word(data){
+      let dataPull=data.val();
+      let dataKey=data.key;
+      let valueOfKey=Object.values(dataPull);
+      valueOfKey.filter((item,indexKey)=>{
+        if(indexKey===index){
+
+          let deleteThis=Object.keys(dataPull)[index];
+          console.log(deleteThis)
+          console.log(uid)
+          let x=Fire.database.ref('Clients/'+uid+'/'+deleteThis)
+          x.remove();
+
+          // let userRef = this.database.ref('users/' + userId);
+          // userRef.remove()
+
+                // .setValue(null)
+          // console.log(r)
+        }
+      })
+    },this.errData);
+
+  }
+
 
 
   render(){
@@ -177,7 +203,7 @@ class App extends Component{
     <a onClick={()=>this.logOut()}>Log Out</a>
     </nav>
 
-    {this.state.view==='contactList'?<Clients clients={this.state.profile}/>:
+    {this.state.view==='contactList'?<Clients removeClient={this.removeClient} clients={this.state.profile}/>:
     <Profile
     name={this.state.name}
     notes={this.state.notes}

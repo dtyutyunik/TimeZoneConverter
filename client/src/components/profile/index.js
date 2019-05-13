@@ -6,7 +6,7 @@ export default function Profile(props){
 
     return(
       <div className='profile'>
-
+      <h1 style={{textAlign:'center'}}>Add Contact</h1>
       <form onSubmit={props.onSubmit}>
 
         <div className='inputWithIcon'>

@@ -5,3 +5,8 @@
 .clientList{
   border: 2px solid blue;
 }
+
+button.removeClient{
+  border: 1px solid purple;
+  background-color: gray;
+}
