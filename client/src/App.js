@@ -126,15 +126,15 @@ class App extends Component{
 
 
       db.on('value', this.gotData,this.errData);
+      console.log('after looking for data')
 
-
-      // setInterval(()=>{this.state.profile.map((item,index)=>{
-      //       let result=this.showTimes(item.country, index);
-      //       item.otherTime=result;
-      //       this.setState({
-      //         [item.otherTime]: item.otherTime,
-      //       })
-      //     })},1000)
+      setInterval(()=>{this.state.profile.map((item,index)=>{
+            let result=this.showTimes(item.country, index);
+            item.otherTime=result;
+            this.setState({
+              [item.otherTime]: item.otherTime,
+            })
+          })},1000)
     }
 
 
@@ -142,9 +142,9 @@ class App extends Component{
     this.setState({
       view: show
     })
-    if(show!=='contactList'){
-      db.off();
-    }
+    // if(show!=='contactList'){
+    //   db.off();
+    // }
   }
 
   gotData=(data)=>{
@@ -153,10 +153,16 @@ class App extends Component{
     //pulls out values of the object into an array of objects
     if(dataPull!==null){
       let valueOfKey=Object.values(dataPull);
+      console.log('looking for data')
       this.setState({
         profile: valueOfKey
       })
 
+    }
+    if(dataPull===null){
+      this.setState({
+        profile: []
+      })
     }
   }
 
@@ -165,20 +171,20 @@ class App extends Component{
     console.log('client clicked to be removed')
     console.log(index);
     let {uid}=this.state.user;
-    let db1=Fire.database.ref('Clients/'+uid);
+    let db=Fire.database.ref('Clients/'+uid);
     let deleteThis='';
-    db1.once('value', function word(data){
+    db.once('value', function word(data){
 
       //datapull gets the whole database
       let dataPull=data.val();
-      console.log(data);
+      // console.log(data);
 
           //gets the values of the pull of data
-          console.log(dataPull);
+          // console.log(dataPull);
           if(dataPull!=={}&&dataPull!==null&&dataPull!==undefined){
             let valueOfKey=Object.values(dataPull);
 
-            console.log(valueOfKey);
+            // console.log(valueOfKey);
 
             valueOfKey.find((item,indexKey)=>{
               if(indexKey===index){
@@ -189,8 +195,10 @@ class App extends Component{
 
           }
 
-            console.log(data)
-    },this.errData);
+            // console.log(data)
+    },function error(){
+      console.log('error')
+    });
     //deletes the specific child
     console.log(deleteThis)
       // Fire.database.ref('Clients/'+uid).child(deleteThis).set(null);
