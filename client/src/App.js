@@ -3,6 +3,7 @@ import Profile from './components/profile';
 import Location from './components/Location';
 import Clients from './components/Clients';
 import LandingPage from './components/LandingPage';
+import UpdateNotes from './components/UpdateNotes';
 import Fire from './firebase.js';
 
 import './App.css';
@@ -205,6 +206,10 @@ class App extends Component{
 
   }
 
+  updateNotes=(index)=>{
+    console.log('update notes in ', index);
+  }
+
 
 
   render(){
@@ -217,8 +222,11 @@ class App extends Component{
     <a onClick={()=>this.logOut()}>Log Out</a>
     </nav>
 
-    {this.state.view==='contactList'?<Clients removeClient={this.removeClient} clients={this.state.profile}/>:
-    <Profile
+    {this.state.view==='contactList'?<Clients
+            removeClient={this.removeClient}
+            updateNotes={this.updateNotes}
+            clients={this.state.profile}/>:
+    <div><Profile
     name={this.state.name}
     notes={this.state.notes}
     email={this.state.email}
@@ -227,8 +235,10 @@ class App extends Component{
     onSubmit={this.handleSubmit}
     country={this.state.country}
     handleChange={this.handleChange}
-    />}
+
+    /><UpdateNotes/></div>}
     </div>}
+
 
 
 
