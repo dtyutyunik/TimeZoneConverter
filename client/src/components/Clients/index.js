@@ -13,7 +13,7 @@ export default function Clients(props){
       <p>Name: {item.name}</p>
       <p>Country: {item.country}</p>
       <p>Notes: {item.notes}</p>
-      <button onClick={()=>props.updateNotes(item.notes)}>Update notes</button>
+      <button onClick={()=>props.updateNotes(item,index)}>Update notes</button>
       <p>Email: {item.email}</p>
       <p>PhoneNumber: {item.phoneNumber}</p>
       <p>Time: {item.otherTime}</p>

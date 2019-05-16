@@ -24,7 +24,11 @@ class App extends Component{
       email: '',
       phoneNumber: '',
       view: 'addcontact',
-      user: {}
+      user: {},
+      passedNotes: '',
+      newNote: '',
+      modal: false,
+      passedIndex:0
     }
   }
 
@@ -61,9 +65,6 @@ class App extends Component{
     e.preventDefault();
 
     let {uid,email}=this.state.user;
-    // console.log(uid,email)
-
-
 
     if(!!uid){
 
@@ -112,40 +113,29 @@ class App extends Component{
 
 
   errData=(error)=>{
-    console.log('error data called');
     console.log(error)
   }
 
   changeView=async(show)=>{
-    console.log('view is ', show)
     let {uid}=this.state.user;
     let db=Fire.database.ref('Clients/'+uid);
 
     if(show==='contactList'){
 
-
-
-
       db.on('value', this.gotData,this.errData);
-      console.log('after looking for data')
 
-      setInterval(()=>{this.state.profile.map((item,index)=>{
-            let result=this.showTimes(item.country, index);
-            item.otherTime=result;
-            this.setState({
-              [item.otherTime]: item.otherTime,
-            })
-          })},1000)
+      // setInterval(()=>{this.state.profile.map((item,index)=>{
+      //       let result=this.showTimes(item.country, index);
+      //       item.otherTime=result;
+      //       this.setState({
+      //         [item.otherTime]: item.otherTime,
+      //       })
+      //     })},1000)
     }
-
-
-
     this.setState({
       view: show
     })
-    // if(show!=='contactList'){
-    //   db.off();
-    // }
+
   }
 
   gotData=(data)=>{
@@ -167,52 +157,89 @@ class App extends Component{
     }
   }
 
+
   removeClient=(index)=>{
 
-    console.log('client clicked to be removed')
-    console.log(index);
     let {uid}=this.state.user;
     let db=Fire.database.ref('Clients/'+uid);
     let deleteThis='';
     db.once('value', function word(data){
-
-      //datapull gets the whole database
       let dataPull=data.val();
-      // console.log(data);
-
           //gets the values of the pull of data
-          // console.log(dataPull);
           if(dataPull!=={}&&dataPull!==null&&dataPull!==undefined){
             let valueOfKey=Object.values(dataPull);
-
-            // console.log(valueOfKey);
-
             valueOfKey.find((item,indexKey)=>{
               if(indexKey===index){
                 deleteThis=Object.keys(dataPull)[index];
+                //deletes the specific child
                 Fire.database.ref('Clients/'+uid).child(deleteThis).set(null);
               }
             })
-
           }
-
-            // console.log(data)
     },function error(){
       console.log('error')
     });
-    //deletes the specific child
-    console.log(deleteThis)
-      // Fire.database.ref('Clients/'+uid).child(deleteThis).set(null);
 
   }
 
-  updateNotes=(index)=>{
-    console.log('update notes in ', index);
+  rewriteNotes=(e)=>{
+
+    const {value}=e.target;
+
+    this.setState(prevState=>({
+      passedNotes:{
+        ...prevState.passedNotes,
+        notes:value
+      }
+    }))
   }
+
+  updateNotes=(notes,index)=>{
+    console.log('notes are ', notes);
+    console.log('index is ', index)
+
+    this.setState({
+      passedNotes: notes,
+      modal: true,
+      passedIndex: index
+    })
+
+    return this.rewriteNotes;
+  }
+  closeModal=(e)=>{
+    e.preventDefault();
+    this.setState({
+      modal:false,
+      view: 'contactList',
+
+    })
+
+    console.log('model closed')
+    return this.updateClientDataInFirebase();
+
+  }
+
+
+    updateClientDataInFirebase=()=>{
+      console.log('index is in updateclient ', this.state.passedIndex);
+      let {uid}=this.state.user;
+      let index=this.state.passedIndex;
+      let notes=this.state.passedNotes;
+      let db=Fire.database.ref('Clients/'+uid);
+
+
+       db.once('value', function word(data){
+         let dataPull=data.val();
+         let dbUniqueKey=Object.keys(dataPull)[index];
+         let result=Fire.database.ref('Clients/'+uid).child(dbUniqueKey).update(notes);
+       },this.error);
+
+    }
 
 
 
   render(){
+    let {modal}=this.state;
   return (
     <div className="App">
 
@@ -222,10 +249,16 @@ class App extends Component{
     <a onClick={()=>this.logOut()}>Log Out</a>
     </nav>
 
-    {this.state.view==='contactList'?<Clients
+    {this.state.view==='contactList'?<div><Clients
             removeClient={this.removeClient}
             updateNotes={this.updateNotes}
-            clients={this.state.profile}/>:
+            clients={this.state.profile}/>
+            <UpdateNotes
+              rewriteNotes={this.rewriteNotes}
+              note={this.state.passedNotes.notes}
+              modal={modal}
+              closeModal={this.closeModal}
+              /></div>:
     <div><Profile
     name={this.state.name}
     notes={this.state.notes}
@@ -236,7 +269,7 @@ class App extends Component{
     country={this.state.country}
     handleChange={this.handleChange}
 
-    /><UpdateNotes/></div>}
+    /></div>}
     </div>}
 
 

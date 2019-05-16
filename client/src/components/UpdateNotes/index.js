@@ -2,38 +2,26 @@ import React, {Component} from 'react';
 import ModalTextBox from '../modalTextBox';
 import './index.css'
 
-export default class UpdateNotes extends Component{
-  constructor(props){
-    super(props);
-    this.state=({
-      modal: true,
-      notes: this.props.notes
-    })
-  }
-
-  onSubmit=(e)=>{
-    e.preventDefault()
-    this.setState({
-      modal: !this.state.modal
-    })
-    console.log('clicked')
-  }
-
-  handleChange=(e)=>{
-    this.setState({
-      notes: e.target.value
-    })
-  }
-
-
-
-  render(){
+export default function UpdateNotes(props){
 
     return(
-    <div className={this.state.modal?"modal":"modalOff"}>
+    <div className={props.modal?"modal":"modalOff"}>
     Update notes
-    <ModalTextBox handleChange={this.handleChange} notes={this.state.notes} onSubmit={this.onSubmit}/>
+    {props.modal?
+    <form onSubmit={props.closeModal}>
+    <textarea
+      value={props.note}
+      placeholder='Notes'
+      name='note'
+      onChange={props.rewriteNotes}
+
+    />
+    <button value='submit'>Submit</button>
+    </form>:null}
+
     </div>
   )
 }
-}
+
+
+// <ModalTextBox updateNotes={this.updateNotes} notes={this.state.notes} onSubmit={this.onSubmit}/>
