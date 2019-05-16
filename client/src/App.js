@@ -185,7 +185,7 @@ class App extends Component{
   rewriteNotes=(e)=>{
 
     const {value}=e.target;
-    console.log(this.state.passedNotes);
+    // console.log(this.state.passedNotes);
     this.setState(prevState=>({
       passedNotes:{
         ...prevState.passedNotes,
