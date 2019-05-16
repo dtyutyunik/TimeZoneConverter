@@ -3,7 +3,7 @@ import React from 'react';
 export default function SignUp(props){
   return(
     <div className="Login">
-    
+
     <h1> <span onClick={()=>props.changeView('signup')}>Sign Up</span> <span>     </span>
     <span onClick={()=>props.changeView('login')}>Log In</span></h1>
     <form className='loginForm' onSubmit={props.onSubmit}>
@@ -22,7 +22,7 @@ export default function SignUp(props){
       <div className='inputIcon'>
         <input type='password'
           value={props.password}
-          placeholder='Password'
+          placeholder='Password min 6'
           name='password'
           onChange={props.handleProfileChange}
 

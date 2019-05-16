@@ -22,7 +22,7 @@ export default function Login(props){
       <div className='inputIcon'>
         <input type='password'
           value={props.password}
-          placeholder='Password'
+          placeholder='Password min 6'
           name='password'
           onChange={props.handleProfileChange}
 
