@@ -77,9 +77,9 @@ class App extends Component{
         phoneNumber: this.state.phoneNumber,
         otherTime: this.state.otherTime
       });
-      console.log('created')
+      // console.log('created')
     }else{
-      console.log('false')
+      // console.log('false')
     }
 
 
@@ -106,8 +106,8 @@ class App extends Component{
 
   logOut=()=>{
     Fire.fire.auth().signOut();
-    console.log('logged out')
-    console.log(this.state.user)
+    // console.log('logged out')
+    // console.log(this.state.user)
   }
 
 
@@ -124,13 +124,13 @@ class App extends Component{
 
       db.on('value', this.gotData,this.errData);
 
-      // setInterval(()=>{this.state.profile.map((item,index)=>{
-      //       let result=this.showTimes(item.country, index);
-      //       item.otherTime=result;
-      //       this.setState({
-      //         [item.otherTime]: item.otherTime,
-      //       })
-      //     })},1000)
+      setInterval(()=>{this.state.profile.map((item,index)=>{
+            let result=this.showTimes(item.country, index);
+            item.otherTime=result;
+            this.setState({
+              [item.otherTime]: item.otherTime,
+            })
+          })},1000)
     }
     this.setState({
       view: show
@@ -144,7 +144,7 @@ class App extends Component{
     //pulls out values of the object into an array of objects
     if(dataPull!==null){
       let valueOfKey=Object.values(dataPull);
-      console.log('looking for data')
+      // console.log('looking for data')
       this.setState({
         profile: valueOfKey
       })
@@ -195,8 +195,8 @@ class App extends Component{
   }
 
   updateNotes=(notes,index)=>{
-    console.log('notes are ', notes);
-    console.log('index is ', index)
+    // console.log('notes are ', notes);
+    // console.log('index is ', index)
 
     this.setState({
       passedNotes: notes,
@@ -223,15 +223,21 @@ class App extends Component{
     updateClientDataInFirebase=()=>{
       console.log('index is in updateclient ', this.state.passedIndex);
       let {uid}=this.state.user;
+      // console.log(uid);
       let index=this.state.passedIndex;
       let notes=this.state.passedNotes;
+      // console.log(notes)
       let db=Fire.database.ref('Clients/'+uid);
 
 
        db.once('value', function word(data){
          let dataPull=data.val();
-         let dbUniqueKey=Object.keys(dataPull)[index];
-         let result=Fire.database.ref('Clients/'+uid).child(dbUniqueKey).update(notes);
+         // console.log(dataPull)
+         if(dataPull!=={}&&dataPull!==null&&dataPull!==undefined){
+           let dbUniqueKey=Object.keys(dataPull)[index];
+           let result=Fire.database.ref('Clients/'+uid).child(dbUniqueKey).update(notes);
+         }
+
        },this.error);
 
     }
@@ -243,7 +249,7 @@ class App extends Component{
   return (
     <div className="App">
 
-    {this.state.user==={}||this.state.user===null?<LandingPage user={this.state.user}/>:<div><nav>
+    {this.state.user==={}||this.state.user===null?<LandingPage user={this.state.user}/>:<div className='nav'><nav>
     <a onClick={()=>this.changeView('addcontact')}>Add Contact</a>
     <a onClick={()=>this.changeView('contactList')}>Show ContactList</a>
     <a onClick={()=>this.logOut()}>Log Out</a>

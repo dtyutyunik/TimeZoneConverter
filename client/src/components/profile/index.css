@@ -38,15 +38,20 @@ textarea:focus {
 
 .inputWithIcon>ion-icon {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 2px;
+  left: 2px;
   margin-left: 80px;
-  width: 35px;
-  height: 35px;
-  /* border: 1px solid black; */
+  width: 30px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 ion-icon {
+  /* border: 1px solid red; */
+  /* height: 30px!important;
+  width: 30px!important; */
 
 }
 

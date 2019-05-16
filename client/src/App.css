@@ -1,19 +1,19 @@
-.App {
-  /* text-align: center; */
-}
-
-.appinside{
-  border: 1px solid blue;
-}
 nav{
   display: flex;
-
   justify-content: space-around;
-  margin-bottom: 5%;
+  align-items: center;
+  margin-bottom: 1%;
+  width:100vw;
+  height:50px;
+  box-shadow: 0px 0px 17px 0px rgba(0,0,0,1);
+
 }
 nav>a{
-  border: 1px solid black;
-  /* display: flex; */
-  /* flex: 1; */
+  font-size: 1.5em;
+  font-family: impact;
+}
 
+nav>a:hover{
+  text-decoration: underline;
+  cursor: pointer;
 }

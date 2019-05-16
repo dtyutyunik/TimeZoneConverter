@@ -3,6 +3,7 @@ import React from 'react';
 export default function SignUp(props){
   return(
     <div className="Login">
+    
     <h1> <span onClick={()=>props.changeView('signup')}>Sign Up</span> <span>     </span>
     <span onClick={()=>props.changeView('login')}>Log In</span></h1>
     <form className='loginForm' onSubmit={props.onSubmit}>

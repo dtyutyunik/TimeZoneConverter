@@ -1,17 +1,46 @@
+.noteContainer{
+  /* position: absolute; */
+  background: black;
+  position: relative;
+  /* margin: 0 auto; */
+  /* top: 0; right: 0; bottom: 0; left: 0; */
+  /* width: 100%; */
+  /* border: 1px solid red; */
+
+
+}
+
 .modal{
-  border: 2px solid yellow;
+  /* position: relative; */
+  /* background: rgba(0,0,0, 0.8); */
+  background: black;
   position: absolute;
-  background: teal;
-  color:red;
-  top:0;
-  left:0;
-  width:100vw;
-  height: 100vh;
+  height: auto;
+  width: 100vw;
+  color:black;
+  top: 0; right: 0; bottom: 0; left: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+textarea.updateNotesTextArea{
+  bordeR: 2px solid green;
+  width: 400px;
+  height: 300px;
+  padding-left: 1%!important;
+  margin-bottom: 1%;
+}
+
+
 .modalOff{
-  border:2px solid red;
+  background: white;
+  height: 50vh;
+  width: 100vw;
+}
+
+.modal button.updateNotesButton{
+
+
 }

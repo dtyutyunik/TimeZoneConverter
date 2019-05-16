@@ -55,6 +55,7 @@ export default class LandingPage extends Component{
   render(){
     return(
       <div className='landingPage'>
+      <h1>TIMEZONE CONTACTS</h1>
       {this.state.view==='signup'?
       <SignUp
        changeView={this.changeView}

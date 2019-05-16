@@ -1,12 +1,26 @@
 .clients{
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+
+
 }
 
 .clientList{
-  border: 2px solid blue;
+  border: 1px solid black;
+  padding: .4em;
+
+  width: 30%;
+
 }
 
-button.removeClient{
-  border: 1px solid purple;
-  background-color: gray;
+button.removeClient,button.updateNotes{
+  /* border: 1px solid purple; */
+  background-color: black;
+  width: 100px;
+  height: 20px;
+  font-size: .7em;
+
 }
