@@ -15,6 +15,7 @@ export default function Profile(props){
             placeholder='Name'
             name='name'
             onChange={props.handleProfileChange}
+            required
 
           />
           <ion-icon name="contact"/>
@@ -26,6 +27,7 @@ export default function Profile(props){
             placeholder='Email'
             name='email'
             onChange={props.handleProfileChange}
+            required
 
           />
           <ion-icon name="mail"/>
@@ -37,6 +39,7 @@ export default function Profile(props){
           placeholder='PhoneNumber'
           name='phoneNumber'
           onChange={props.handleProfileChange}
+          required
 
         />
         <ion-icon name="megaphone"/>
@@ -48,6 +51,7 @@ export default function Profile(props){
           placeholder='Notes'
           name='notes'
           onChange={props.handleProfileChange}
+          required
 
         />
         <ion-icon name="reorder"></ion-icon>

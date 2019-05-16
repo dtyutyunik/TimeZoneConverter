@@ -18,7 +18,7 @@ class App extends Component{
       yourTime: '',
       otherTime: '',
       profile:[],
-      country: '',
+      country: 'America/New_York',
       name: '',
       notes: '',
       email: '',
@@ -185,7 +185,7 @@ class App extends Component{
   rewriteNotes=(e)=>{
 
     const {value}=e.target;
-
+    console.log(this.state.passedNotes);
     this.setState(prevState=>({
       passedNotes:{
         ...prevState.passedNotes,
@@ -195,7 +195,7 @@ class App extends Component{
   }
 
   updateNotes=(notes,index)=>{
-    // console.log('notes are ', notes);
+    console.log('notes are ', notes.notes);
     // console.log('index is ', index)
 
     this.setState({

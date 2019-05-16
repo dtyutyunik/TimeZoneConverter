@@ -6,7 +6,7 @@ export default function TimeZoneList(props){
 
   return(
     <div className='inputWithIcons'>
-     <select className="timezoneSelect"value={props.country} onChange={props.handleChange}>
+     <select className="timezoneSelect"value={props.country} onChange={props.handleChange} required>
         <optgroup label="Africa">
             {Africa.map((i, index)=>{
               return ( <option key={index} value={Africa[index]} label={Africa[index].slice(America[index].indexOf('/'))}></option>)
