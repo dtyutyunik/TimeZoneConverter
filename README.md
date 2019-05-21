@@ -4,8 +4,16 @@ An application that lets you add your contact list and the location of the count
 
 ## Setup
 
-git clone, npm i, npm start
+1. git clone
+2. cd into client
+3. npm i
+4. Add your own firebase credenitals in an env file, based on firebase.js file 
+5. npm start
 
 ## Techstack
 
 Firebase for database storage, react for frontend
+
+## Hosted
+
+http://timezone.surge.sh
