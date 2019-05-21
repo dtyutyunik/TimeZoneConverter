@@ -3,13 +3,13 @@ import firebase from 'firebase';
 
 
 var firebaseConfig = {
-    apiKey: "AIzaSyCBhQBk07s5S0WffCF7QrqpT1h7QSWGLy0",
-    authDomain: "timezoneconverter-2ff15.firebaseapp.com",
-    databaseURL: "https://timezoneconverter-2ff15.firebaseio.com",
-    projectId: "timezoneconverter-2ff15",
-    storageBucket: "timezoneconverter-2ff15.appspot.com",
-    messagingSenderId: "936073513093",
-    appId: "1:936073513093:web:4ba4b9198d47aced"
+    apiKey: process.env.REACT_APP_APIKEY,
+    authDomain: process.env.REACT_APP_AUTHDOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASEURL,
+    projectId: process.env.REACT_APP_PROJECTID,
+    storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+    appId: process.env.REACT_APP_APPID
   };
 
 let fire=firebase.initializeApp(firebaseConfig);

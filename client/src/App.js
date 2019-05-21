@@ -195,7 +195,7 @@ class App extends Component{
   }
 
   updateNotes=(notes,index)=>{
-    console.log('notes are ', notes.notes);
+    // console.log('notes are ', notes.notes);
     // console.log('index is ', index)
 
     this.setState({
@@ -214,14 +214,14 @@ class App extends Component{
 
     })
 
-    console.log('model closed')
+    // console.log('model closed')
     return this.updateClientDataInFirebase();
 
   }
 
 
     updateClientDataInFirebase=()=>{
-      console.log('index is in updateclient ', this.state.passedIndex);
+      // console.log('index is in updateclient ', this.state.passedIndex);
       let {uid}=this.state.user;
       // console.log(uid);
       let index=this.state.passedIndex;
